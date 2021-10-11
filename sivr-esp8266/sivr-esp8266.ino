@@ -1,5 +1,12 @@
+#include <ArduinoJson.h>
+#include <ArduinoJson.hpp>
+
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+
+#include <EEPROM.h>
+
+#define RESET_EEPROM false
 
 // Ganti ke digital input kalo udah beli switch sama resistor 10k ohm
 const int setupInputPin = A0;
@@ -9,6 +16,7 @@ ESP8266WebServer server(80);
 
 void setup(){
   Serial.begin(115200); 
+  EEPROM.begin(512);
   Serial.println("\n\n");
   
   isSetupModeEnabled = analogRead(A0) > 20;
