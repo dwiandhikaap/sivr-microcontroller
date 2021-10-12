@@ -2,7 +2,7 @@
 const char* ssid = "sivr-device";
 const char* password = "13371337";
 
-void setupMode(){
+void enableSetupMode(){
   pinMode(LED_BUILTIN, OUTPUT);
   analogWrite(LED_BUILTIN, 255);
 
@@ -10,14 +10,19 @@ void setupMode(){
   delay(100);
   
   IPAddress IP = WiFi.softAPIP();
-  Serial.println("[sivr-device] - SETUP MODE");
-  Serial.print("Soft-AP IP Address: ");
+  Serial.println("[SETUP MODE] - Setup Mode is now enabled!");
+  Serial.print("[SETUP MODE] - Setup Page IP Address: ");
   Serial.println(IP);
-
-  Serial.println(WiFi.localIP());
 
   serverInit();
   ledOn(LED_BUILTIN);
   return;
 }
 
+void disableSetupMode(){
+  Serial.println("[SETUP MODE] - Setup Mode is now disabled!");
+
+  WiFi.softAPdisconnect();
+  serverStop();
+  ledOff(LED_BUILTIN);
+}
