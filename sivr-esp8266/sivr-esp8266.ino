@@ -16,28 +16,25 @@ ESP8266WebServer server(80);
 
 void setup(){
   Serial.begin(115200); 
-  EEPROM.begin(512);
+  EEPROM.begin(256);
   Serial.println("\n\n");
-  
-  isSetupModeEnabled = analogRead(A0) > 20;
-  if(setupMode){
-    setupMode();
-    return;
-  }
 
-  Serial.println("[sivr-device] - NORMAL MODE");
+  Serial.println("[sivr-device] - Initializing...");
+  connectToWifi();
 }
 
 void loop(){
   if(isSetupModeEnabled != analogRead(A0) > 20){
     isSetupModeEnabled = analogRead(A0) > 20;
-    Serial.println("[sivr-device] - SETUP MODE is toggled");
     ledBlink(LED_BUILTIN);
     ledBlink(LED_BUILTIN);
     ledBlink(LED_BUILTIN);
     if(isSetupModeEnabled){
-      ledOn(LED_BUILTIN);
+      enableSetupMode();
+      return;
     }
+
+    disableSetupMode();
   }
 
   if(isSetupModeEnabled){
