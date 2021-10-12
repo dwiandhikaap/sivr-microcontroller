@@ -333,6 +333,10 @@ void serverInit(){
   server.begin();
 }
 
+void serverStop(){
+  server.stop();  
+}
+
 void indexHandler() {
   server.send(200, "text/html", index_html); 
   ledBlink(LED_BUILTIN);
@@ -351,6 +355,7 @@ void saveConfigHandler() {
 
 void getSSIDHandler() {
   String ssid = readSSID();
+  readPassword();
   
   server.send(200, "text/plain", ssid);
 }
